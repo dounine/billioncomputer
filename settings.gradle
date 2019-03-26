@@ -1,0 +1,6 @@
+rootProject.name = 'billioncomputer'
+
+//loghub for etl
+include ':loghub'
+project(':loghub').projectDir = new File(rootProject.projectDir, './loghub')
+
