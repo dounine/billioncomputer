@@ -4,3 +4,7 @@ rootProject.name = 'billioncomputer'
 include ':loghub'
 project(':loghub').projectDir = new File(rootProject.projectDir, './loghub')
 
+//compute for spark and hbase
+include ':compute'
+project(':compute').projectDir = new File(rootProject.projectDir, './compute')
+
