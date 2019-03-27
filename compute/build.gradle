@@ -1,0 +1,82 @@
+group 'com.dounine'
+version '1.0.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:4.0.2"
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'java'
+apply plugin: 'scala'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "http://repo.hortonworks.com/content/repositories/releases/" }
+}
+
+task copyJars(type: Copy) {
+    from configurations.runtime
+    into new File('build/libs/lib')
+}
+compileJava.dependsOn copyJars
+
+shadowJar {
+    zip64 true
+}
+
+def env = hasProperty("pro") ? "RELEASE" : "SNAPSHOT"
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ["src/main/resources", "src/main/profile/$env"]
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'DriverMain',
+                'Implementation-Version': version,
+                'Main-Class': 'com.dounine.compute.DriverMain'
+    }
+}
+
+ext {
+    flinkVersion = "1.8-SNAPSHOT"
+    hbaseVersion = "2.0.0"
+    slf4jVersion = "1.7.25"
+}
+
+dependencies {
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.8'
+    compile group: 'org.scala-lang', name: 'scala-reflect', version: '2.12.8'
+    compile group: 'org.scala-lang', name: 'scala-compiler', version: '2.12.8'
+
+    compile ('org.apache.hbase:hbase-client:2.0.0'){
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+    compile('org.apache.hbase:hbase-mapreduce:2.0.0') {
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+
+    compile group: 'org.apache.spark', name: 'spark-sql_2.12', version: '2.4.0'
+    compile group: 'org.apache.spark', name: 'spark-core_2.12', version: '2.4.0'
+    compile group: 'org.apache.spark', name: 'spark-repl_2.12', version: '2.4.0'
+
+
+    compile group: 'redis.clients', name: 'jedis', version: '3.0.1'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

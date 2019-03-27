@@ -1,0 +1,14 @@
+.idea/
+.gradle/
+**/.gradle/
+**/.idea/
+**/build/
+build/
+**/out/
+out/
+**/classes/
+classes/
+**/*.iml
+*.iml
+out/
+**/out/
