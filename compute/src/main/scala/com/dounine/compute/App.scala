@@ -17,10 +17,6 @@ class App {
 
     conf.set(TableInputFormat.INPUT_TABLE, Tables.LOG_TABLE)
 
-    conf.set("hbase.security.authorization", "kerberos")
-    conf.set("hbase.kerberos.principal", "admin/admin@dounine.com")
-    conf.set("hbase.kerberos.keytab", "/etc/security/keytabs/admin.keytab")
-
     conf.set("hbase.table.split.startkey", "0")
     conf.set("hbase.table.split.startkey", "f")
     conf.setInt("hbase.table.split.radix", 16)
