@@ -13,6 +13,10 @@ class DBHbase(tableName: String) {
   private val connection = ConnectionFactory.createConnection(ConfUtil.getConf)
   private val table = connection.getTable(TableName.valueOf(tableName))
 
+  def getTable(): Table ={
+    table
+  }
+
   def incrments(incs: Seq[String], family: String = "info", amount: Int = 1): Seq[Long] = {
     if (incs.isEmpty) {
       Seq[Long]()

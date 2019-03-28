@@ -1,3 +1,13 @@
+-- offset 索引表
+create table offset
+(
+	id int auto_increment primary key,
+	offsetName varchar(200) null,
+	time datetime not null,
+	constraint offset_offsetName_uindex unique (offsetName)
+);
+
+-- pv/uv
 create table common_report
 (
 	id bigint auto_increment primary key,
@@ -7,13 +17,20 @@ create table common_report
 	time date not null,
 	constraint common_report_aid_time_uindex unique (aid, time)
 );
-create table offset
+
+-- 留存
+create table ttable.come_report
 (
 	id int auto_increment primary key,
-	offsetName varchar(200) null,
 	time datetime not null,
-	constraint offset_offsetName_uindex unique (offsetName)
+	aid int not null,
+	come3 int default 0 null,
+	come5 int default 0 null,
+	come7 int default 0 null,
+	constraint come_report_aid_time_uindex unique (aid, time)
 );
+
+
 
 
 

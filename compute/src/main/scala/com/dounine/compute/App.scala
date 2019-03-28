@@ -2,6 +2,7 @@ package com.dounine.compute
 
 import com.dounine.compute.Structs.{DT, LogCase}
 import com.dounine.compute.indicators.common.{PV, UV}
+import com.dounine.compute.indicators.user.User
 import com.dounine.compute.util.Convert._
 import com.dounine.compute.util.{ConfUtil, HbaseUtil, SessionUtil, Tables}
 import org.apache.hadoop.hbase.client.Result
@@ -16,6 +17,10 @@ class App {
     val conf = ConfUtil.getConf
 
     conf.set(TableInputFormat.INPUT_TABLE, Tables.LOG_TABLE)
+
+    conf.set("hbase.security.authorization", "kerberos")
+    conf.set("hbase.kerberos.principal", "admin/admin@dounine.com")
+    conf.set("hbase.kerberos.keytab", "/etc/security/keytabs/admin.keytab")
 
     conf.set("hbase.table.split.startkey", "0")
     conf.set("hbase.table.split.startkey", "f")
@@ -54,6 +59,7 @@ class App {
 
     logDS.createTempView("log")
 
+    new User().run()
     new PV().run()
     new UV().run()
 

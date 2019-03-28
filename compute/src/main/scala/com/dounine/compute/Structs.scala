@@ -2,7 +2,7 @@ package com.dounine.compute
 
 object Structs {
 
-  case class DT(var time: String,var date: String)
+  case class DT(var time: String, var date: String, var regTime: String = null)
 
   case class EXT(var render: Long = 0)
 

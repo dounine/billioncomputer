@@ -4,5 +4,6 @@ object Tables {
 
   val LOG_TABLE = "test_arc"
   val CACHE_TABLE = "CACHE_FOR_TEST"
+  val USER_TABLE = "test_arc_user"
 
 }
